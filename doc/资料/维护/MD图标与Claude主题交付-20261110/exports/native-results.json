@@ -1,0 +1,18 @@
+{
+  "checks": [
+    "Real local Chinese/space image previews load without changing Markdown",
+    "docx: actual native artifact includes image/formula/diagram (Word includes borders and new backend footnotes)",
+    "docx-legacy: actual native artifact includes image/formula/diagram (Word includes borders and new backend footnotes)",
+    "pdf: actual native artifact includes image/formula/diagram (Word includes borders and new backend footnotes)",
+    "png: actual native artifact includes image/formula/diagram (Word includes borders and new backend footnotes)",
+    "html-styled: actual native artifact includes image/formula/diagram (Word includes borders and new backend footnotes)",
+    "html-plain: actual native artifact includes image/formula/diagram (Word includes borders and new backend footnotes)",
+    "Recent files, read-only directory, real content search and exact source-line preview",
+    "Native clipboard image staging and first Save As migrate to adjacent content-addressed assets",
+    "Cross-directory Save As preserves original Markdown/assets and produces a self-contained copy",
+    "PNG native sink rejects overwriting a Markdown path",
+    "WebView2 opens system print UI in a separate offline window; test closes it without submitting a print job"
+  ],
+  "errors": [],
+  "root": "test-results/native-p4p5-7d2d621a68d9447e8e0f2f368941c8cf"
+}

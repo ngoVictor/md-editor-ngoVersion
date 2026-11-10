@@ -1,0 +1,69 @@
+@import "./theme-tokens.css";
+/* Keep the Claude shell above legacy control and mode-badge selectors. */
+:root[data-theme=claude] :is(.tab,.outline-item) { color:var(--text); }
+:root[data-theme=claude] #toolbar :is(button,select) { background:var(--raised); color:var(--text); border-color:var(--border); }
+:root[data-theme=claude] :is(.tab.active,.mode-badge) { background:var(--soft); color:var(--accent); border-color:var(--border); }
+:root[data-theme=claude] :is(.tab,.outline-item,#toolbar button):hover { background:var(--hover); color:var(--text); }
+/* Appearance only: selectors never alter document contents or editor layout. */
+body { background:var(--canvas); color:var(--text); }
+#toolbar, #tabs, #outline-panel, #editor-wrap, #empty-state { background:var(--canvas); border-color:var(--border); }
+#file-title, .tab, .outline-item, .modal-msg { color:var(--text); }
+.panel-title, #encoding-badge { background:var(--surface); color:var(--muted); border-color:var(--border); }
+.empty, .empty-hint, .tab-close { color:var(--muted); }
+.empty-hint, .modal { background:var(--raised); color:var(--text); border-color:var(--border); }
+#toolbar button, #toolbar select, .modal button { background:var(--raised); color:var(--text); border-color:var(--border); }
+#toolbar button:hover, #toolbar select:hover, .modal button:hover,
+.tab:hover, .outline-item:hover { background:var(--hover); color:var(--text); border-color:var(--border); }
+#toolbar #btn-open, #toolbar #btn-export, #toolbar #btn-copy-mode, #toolbar #btn-mode,
+#cc-save, .tab.active { background:var(--soft); color:var(--accent); border-color:var(--border); }
+.tab.active::after, #outline-resize:hover, #outline-resize:focus { background:var(--accent); }
+#toolbar #btn-debug { color:var(--muted); }
+.mode-badge { background:var(--soft); color:var(--accent); border-color:var(--border); }
+#debug-bar, #debug-bar .dbg-head { background:var(--surface); color:var(--text); border-color:var(--border); }
+#debug-bar .dbg-title { color:var(--accent); }
+#debug-bar .dbg-btn { background:var(--raised); color:var(--text); border-color:var(--border); }
+#find-context mark { background:var(--mark); color:var(--text); }
+::selection { background:var(--selection); }
+::-webkit-scrollbar-thumb { background-color:var(--border); }
+::-webkit-scrollbar-thumb:hover { background-color:var(--muted); }
+:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+#editor .vditor {
+  --border-color:var(--border); --second-color:var(--muted);
+  --panel-background-color:var(--raised); --toolbar-background-color:var(--surface);
+  --toolbar-icon-color:var(--muted); --toolbar-icon-hover-color:var(--accent);
+  --textarea-background-color:var(--page); --textarea-text-color:var(--text);
+  --heading-border-color:var(--border); --blockquote-color:var(--muted);
+  --ir-heading-color:var(--accent); --ir-title-color:var(--muted);
+  --ir-bi-color:var(--accent); --ir-link-color:var(--accent);
+  --ir-bracket-color:var(--muted); --ir-paren-color:var(--muted);
+}
+#editor .vditor-content, #editor .vditor-preview, #editor .vditor-wysiwyg,
+#editor .vditor-ir, #editor .vditor-sv, #editor .vditor-reset {
+  background:var(--page); color:var(--text); caret-color:var(--text);
+}
+#editor .vditor-toolbar { background:var(--surface); border-color:var(--border); }
+#editor .vditor-toolbar button:hover { background:var(--hover); }
+#editor .vditor-panel { border-color:var(--border); }
+#editor .vditor-reset h1 { color:var(--h1); }
+#editor .vditor-reset h2 { color:var(--h2); }
+#editor .vditor-reset h3 { color:var(--h3); }
+#editor .vditor-reset h4 { color:var(--h4); }
+#editor .vditor-reset h5 { color:var(--h5); }
+#editor .vditor-reset h6 { color:var(--h6); }
+#editor .vditor-reset :is(h1,h2) { border-color:var(--border); }
+#editor .vditor-reset blockquote { background:var(--quote); color:var(--muted); border-color:var(--accent); }
+#editor .vditor-reset pre:not(.vditor-reset) { background:var(--code); border-color:var(--border); }
+#editor .vditor-reset :not(pre)>code { background:var(--code); color:var(--code-text); }
+#editor .vditor-reset pre code { background:transparent; }
+#editor .vditor-reset a { color:var(--accent); }
+#editor .vditor-reset table, #editor .vditor-reset :is(th,td) { border-color:var(--border); }
+#editor .vditor-reset table tr, #editor .vditor-reset td { background:var(--page); }
+#editor .vditor-reset th { background:var(--surface); }
+#editor .vditor-reset tbody tr:hover td { background:var(--hover); }
+#editor .vditor-reset hr { background:var(--border); border-color:var(--border); }
+#editor .vditor-reset mark { background:var(--mark); color:var(--text); }
+#editor .vditor-reset kbd { background:var(--surface); color:var(--text); border-color:var(--border); }
+/* Formula/diagram preview wrappers must not inherit the code block background. */
+#editor .vditor-reset pre:has(.language-math),
+#editor .vditor-reset pre:has(.language-mermaid) { background:transparent; border-color:transparent; }

@@ -1,12 +1,12 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "md-editor",
-  "version": "0.5.2",
-  "identifier": "com.github.frandy820.md-editor",
+  "productName": "md-editor-alei",
+  "version": "0.1.0",
+  "identifier": "com.alei.md-editor.integration",
   "build": {
-    "beforeDevCommand": "npm run dev",
+    "beforeDevCommand": "dev-server.cmd",
     "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "npm run build",
+    "beforeBuildCommand": "build-frontend.cmd",
     "frontendDist": "../dist"
   },
   "app": {
@@ -18,16 +18,10 @@
         "height": 800,
         "minWidth": 800,
         "minHeight": 500,
-        "dragDropEnabled": false
+        "dragDropEnabled": true
       }
     ],
     "security": {
-      "assetProtocol": {
-        "enable": true,
-        "scope": [
-          "**"
-        ]
-      },
       "csp": "default-src 'self'; img-src 'self' asset: http://asset.localhost data: blob: https: http:; media-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; script-src 'self'; connect-src 'self' ipc: http://ipc.localhost https://ipc.localhost; frame-src 'self'"
     }
   },
@@ -43,12 +37,8 @@
     ],
     "fileAssociations": [
       {
-        "ext": [
-          "md",
-          "markdown",
-          "mdown"
-        ],
-        "name": "com.github.frandy820.md-editor",
+        "ext": ["md", "markdown", "mdown", "txt"],
+        "name": "com.alei.md-editor.integration",
         "description": "Markdown 文档",
         "mimeType": "text/markdown"
       }

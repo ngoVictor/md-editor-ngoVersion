@@ -1,145 +1,99 @@
-# MD 编辑器 · MD Editor
+# md-editor-ngoVersion
 
-![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
-![platform](https://img.shields.io/badge/platform-Windows-0078D4?style=flat-square)
-![tauri](https://img.shields.io/badge/Tauri-2-FFC131?style=flat-square)
-![size](https://img.shields.io/badge/size-~7.5MB-9cf?style=flat-square)
-![i18n](https://img.shields.io/badge/UI-中文%20%7C%20EN-002fa7?style=flat-square)
+**本地写作，清晰表达。**
 
-![MD 编辑器 · 表格可视化编辑](docs/screenshots/table-edit.png)
+[使用指南](doc/使用指南.md) · [能力边界](doc/能力边界与限制.md) · [反馈问题](https://github.com/ngoVictor/md-editor-ngoVersion/issues)
 
-一款轻量的 Windows 桌面 Markdown 编辑器，**默认所见即所得，支持表格可视化增删改**，内置**中英双语界面**（中文支持简体/繁体）。基于 Tauri 2 + Vditor，单文件便携 exe（约 7.5 MB），不依赖网络，无账号、无联网上报。
+![Claude Code 主题中的实际编辑界面](doc/screenshots/editor-claude.png)
 
-### ✨ 功能
+本项目是 [frandy820/md-editor](https://github.com/frandy820/md-editor) 的个人维护与修改版本，由 [ngoVictor](https://github.com/ngoVictor) 发布。感谢原作者提供开源基础，以及 Tauri、Vditor 和相关开源依赖。原项目版权声明与 MIT 许可证完整保留；本版独立维护，功能与发布节奏以此仓库为准。
 
-**编辑**
+面向 Windows 的离线 Markdown 桌面编辑器，使用 Tauri 2、Vditor 3.11 和 TypeScript/Vite。包含五套主题与 MD 图标，版本字段为 0.1.0。
 
-- **所见即所得**：直接编辑表格——点单元格改内容、光标进表浮出工具栏（上下插行 / 左右插列 / 删行删列 / 对齐 / 整行上移下移 / 删表）、行/列数字框输入数字 + 回车**批量增删**、列宽拖动（存盘零样式污染，导出保持列宽）；整行移动按钮在标题行 / 首末行时自动置灰，杜绝无效操作
-- **查找替换**：`Ctrl+F` / `Ctrl+H`，全部匹配高亮 + 计数导航 + 逐个/全部替换（可撤销），支持**正则模式**（`$1` 分组引用）
-- **内容增强**：数学公式（KaTeX 行内/块级即时渲染）、Mermaid 图表（mindmap、timeline、flowchart…）、代码块行号、emoji `:smile:` 自动补全（1500+）、英文拼写检查
-- **中文排版**：渲染与导出时中英文之间自动加空格（不改源文）
-- **粘贴截图落地**：`Ctrl+V` 粘贴图片自动保存到文档旁 `assets/`，正文以**相对路径**引用——源码整个文件夹拷走图片不丢；粘贴长文本后视口自动滚到光标
+## 使用与功能
 
-**撤销 / 重做 / 版本历史**
+运行程序 `md-editor.exe` 需要 Windows WebView2 Runtime。源码仓库不包含 exe，可按下方步骤构建。程序无需安装，用户数据保存在应用本地数据目录。本次产物校验值和验证范围见[交付记录](doc/资料/维护/MD图标与Claude主题交付-20261110/交付说明.md)。
 
-- **多步撤销重做，双通道**：`Ctrl+Z` 撤销，`Ctrl+Y` / `Ctrl+Shift+Z` 重做；工具栏也有**撤销/重做按钮**（无步可撤时自动置灰），与快捷键同栈同语义
-- **智能分步，逐步回退**：打字停顿约半秒自动成一步；连续输入约 8 个字也自动切一步——连打一大段，撤销时也是一小段一小段地回退，不会一下子飞回很久以前
-- **中文输入法友好**：拼音打一半直接按 `Ctrl+Z` 也可以撤销（先结束组合再回退）
-- 全部替换、表格行移动等**批量操作同样可撤销**（一次一步）
-- 每个文档独立撤销栈，最多 100 步；切换标签页不丢
-- **版本历史**：每次保存前自动归档旧版（每文件 50 版 / 30 天），🕘 列表预览 + 一键恢复
+- WYSIWYG、语法编辑、分屏预览三种模式；简体中文、繁体中文、English。
+- 可视化表格、大纲、多标签页、标签拖出独立窗口、每文档撤销与查找替换。
+- 安全保存、外部修改提醒、保存前历史归档；自动保存与恢复文件标签可选，默认关闭。
+- 本地图片插入/粘贴与另存为迁移；公式和 Mermaid 离线渲染。
+- Word 新/兼容后端、HTML 带样式/纯净、PDF、PNG，以及系统打印入口。
+- 本地文档与锚点导航、独立源码预览、最近文件、只读目录浏览及有界搜索。
+- 浅色、深色、护眼绿、暖纸、Claude Code 主题和跟随系统，六级标题独立配色。
 
-**标签页**
+完整操作见[使用指南](doc/使用指南.md)，输入和输出限制见[能力边界](doc/能力边界与限制.md)。文件删除/重命名、全盘索引、便携 Data 设置、诊断包已取消。
 
-- 多文档并行编辑；`Ctrl+Click` 多选、`Shift+Click` 范围多选批量关闭
-- 右键关闭其它/左侧/右侧/全部；标签过多时**自动多行折行**，一个不漏
-- **标签栏空白双击新建文档**
-- **会话持久化**：关闭时记住全部标签与阅读位置，下次启动恢复原样；非活动标签惰性装载（斜体灰显，点开才读盘），几十个标签秒开
+## 边写边看
 
-**状态与安全**
+分屏预览将 Markdown 源码与排版结果放在同一个窗口，适合检查语法、链接与文档结构。
 
-- **状态栏**：左下角胶囊式字数显示「已选 N · 共 N 字」，选中即更新；带底色与正文分离，不遮挡内容
-- **外部修改检测**：文件在编辑器外被改动（或删除），切回标签/窗口聚焦时顶部黄条提示，一键重新加载；有未保存改动时另行提醒，防止误覆盖
-- **查找历史**：最近 10 条查找/替换词自动记忆，输入框下拉可选（Notepad++ 式）
-- **大文档提示**：超大文档顶部蓝条提示已进入延迟保存通道；即时渲染模式下打开大文件自动切回所见即所得，避免卡顿
+![分屏预览模式](doc/screenshots/editor-split.png)
 
-**文件管理（侧栏「文件」页）**
+五套主题覆盖不同阅读习惯。首图为 Claude Code 主题，下图为暖纸主题；切换主题不修改正文。
 
-- **此电脑资源树**：盘符常驻（进入任何盘其它盘符不消失）、目录懒展开、地址栏跳转、当前文件自动定位；**非文本文件也可见**（灰显显示，点击即在文件夹中打开）
-- **右键文件管理**：新建 Markdown / TXT / 文件夹、重命名（联动打开中的标签）、删除（级联关闭相关标签）、在文件夹中显示、复制路径
-- **全盘搜文件名**：文件名过滤框输入关键词，毫秒级返回**全盘**命中；结果**双击在资源树中定位并展开所在路径**（文件夹则直接展开）；文件名 / 路径两列宽度可拖动（首次使用自动在后台建立全盘索引，约 1-3 分钟；此后启动即用、后台自动刷新，无需安装任何其他软件）
-- **最近文件** + 快速打开 `Ctrl+Shift+O`
-- **搜同级文件内容** `Ctrl+Shift+F`：按关键词搜当前文件所在目录的全部文本文件内容，结果点击跳转
+![暖纸主题](doc/screenshots/editor-paper.png)
 
-**外观与界面**
+截图来自正式 Windows exe 的 WebView2 界面，使用[公开演示文档](doc/screenshots/demo.md)，不含个人笔记。
 
-- **中英双语界面**：中文（简体 / 繁体）/ English，跟随系统语言并记住选择
-- **四套内置主题**：浅色 / 深色（纯黑 OLED 并入，表格、引用等全部元素适配）/ 护眼绿 / 暖纸（米黄纸感）
-- **自定义主题（Typora 社区兼容）**：从 [Typora 主题站](https://theme.typora.io/) 或 GitHub 下载主题 `.css` 文件，放入 `%APPDATA%\com.github.frandy820.md-editor\themes\`（没有就新建），重启后「主题」菜单底部即可切换；文件名加 `_` 前缀=停用该主题
-- **标题分级配色**：H1–H6 六级标题各有专属颜色，扫一眼分清层级
-- **左侧大纲**（默认展示）：点击定位、✕ 删除章节（联动正文）、拖动重排、关键字过滤、拖动调宽
-- **专注模式**：`F8` 淡化非当前段落
-- **阅读滚动**：正文空白处**双击**开始自动平滑滚动（解放滚轮手）；`↑`/`↓` 实时调速（0.5~100 像素/秒，记住上次速度），`Esc` / 滚一下滚轮 / 按任意键即停，再双击也可停止
-- **显示比例**：`Ctrl+滚轮` 缩放（50%~200%）、`Ctrl+0` 复位；缩放时右下角自动浮现滑杆，停顿 3 秒后隐藏——只缩正文内容区，设置重启后记住
-- 启动即聚焦编辑区，打开就能直接打字
+## 开始使用
 
-**导出与打印**
+本版二进制附件发布后会放在[本仓库 Releases](https://github.com/ngoVictor/md-editor-ngoVersion/releases)，没有附件时请按下文构建。**上游 Releases 的程序不代表本版功能。** 缺少 WebView2 Runtime 的电脑需要先安装运行时。
 
-- **导出中心**：顶部「导出 ▾」——PDF（矢量、文本可选中可搜索）、HTML（带样式 / 纯净两档）、PNG 长图（超长文档自动分片多图）、Word .docx（标题/嵌套列表(原生编号)/表格/代码/链接/图片真嵌入/脚注）
-- **打印**：工具栏 🖨 按钮或 `Ctrl+P`，弹系统打印预览（可选打印机 / 份数 / 双面）
+1. 双击 exe，点击“打开”，或将 Markdown 文件拖入窗口。
+2. 默认使用“排版成品”，可直接编辑文字与表格。顶部下拉框或 `Ctrl+Alt+M` 切换模式。
+3. `Ctrl+S` 保存，`Ctrl+Shift+S` 另存为；选择辅助栏的格式后点击“导出”，生成其他格式。
 
-**其它**
+| 常用操作 | 入口 |
+| --- | --- |
+| 撤销 / 重做 | `Ctrl+Z` / `Ctrl+Y` 或 `Ctrl+Shift+Z` |
+| 查找 / 替换 | `Ctrl+F` / `Ctrl+H` |
+| 快速打开 / 命令 | `Ctrl+P` / `Ctrl+Shift+P` |
+| 表格增删与对齐 | 排版成品模式中点击表格，使用浮层工具栏 |
+| 拆分窗口 | 至少两个标签时，将其中一个标签拖出窗口 |
 
-- **自动保存**：已有路径的文档每 30 秒及窗口失焦时自动落盘；`Ctrl+S` 随手存
-- **另存为（多格式）** `Ctrl+Shift+S`：保存类型可选 Markdown / PDF / HTML / PNG / Word——选 MD 时切换到新文件继续编辑（原文件不动），选其它格式导出一份副本（当前文档不变）
-- **标签页重命名**：双击标签上的文件名就地改名（Enter 确认 / Esc 取消），磁盘文件、文件树、最近列表同步联动
-- **多种打开方式**：双击 .md / 拖拽到窗口 / 命令行参数 / 单实例转发
-- **编码自动识别**：UTF-8 / UTF-8(BOM) / GBK（标题栏显示实际编码），保存统一写 UTF-8 无 BOM
-- **字数统计**：右下角实时显示
-- **大文件支持**：最高可打开 200 万字符（约 600 万字节）的文档——超大文档自动启用延迟取值通道（键入空闲时统一同步内容，避免逐键全文序列化卡顿）并显示加载提示；超过 200 万字符弹窗提示拆分（Rust 侧 16MB 硬上限）。注：数十万字符级文档打开约 2-6 秒，编辑键入有约 1 秒级延迟（渲染引擎固有），更适合浏览与轻度修改
-- **隐私**：无任何联网上报，所有文件操作都在本机完成
+自动保存与恢复文件标签默认关闭。恢复标签只记住已保存文件的路径，不备份未保存草稿；历史恢复先生成未保存修改，确认后再手动保存。偏好与历史存于本机应用数据目录，不会跟随 exe 移动。
 
-> ⚠️ 已知取舍：所见即所得模式下，本地相对路径图片在编辑器内**不显示缩略图**（源码保持相对路径以确保可移植；导出 PDF/HTML/PNG/Word 时会自动嵌入图片）。
+编辑与本地渲染无需网络、无需登录。Markdown 中的在线图片仍需网络；远程图片及任意 SVG/BMP 不作为本地资源自动嵌入导出。Word 中的公式与图表为静态画面。其他限制见[能力边界](doc/能力边界与限制.md)。
 
-<details>
-<summary>📸 界面截图</summary>
+## 开发与构建
 
-![主界面（简体中文）](docs/screenshots/main-zh.png)
+需要 Node.js/npm（CI 使用 Node 20）、Rust stable MSVC、Visual Studio C++ 构建工具、Windows SDK 和 WebView2。在项目根运行：
 
-![英文界面](docs/screenshots/en.png)
-
-</details>
-
-### 📥 下载
-
-[![下载 md-editor.exe](https://img.shields.io/badge/⬇下载-md--editor.exe-4470e0?style=for-the-badge)](https://github.com/frandy820/md-editor/releases/latest)
-
-去 [Releases](https://github.com/frandy820/md-editor/releases) 下载，两种形态：
-
-- **`md-editor.exe`**：单文件绿色版，双击即可运行（免安装）。界面配置存在系统用户目录（`%APPDATA%`）。
-- **`md-editor-portable-vX.Y.Z.zip`**：U 盘便携版。解压到 U 盘任意目录直接运行——exe 旁的 `Data` 文件夹存在即自动进入便携模式，语言/主题/会话/日志等全部数据跟着 U 盘走，宿主机不留个人数据（WebView 缓存放系统临时目录，可随系统清理）。升级 = 下载新 zip 覆盖 `md-editor.exe`，`Data` 文件夹不受影响。
-
-  便携版两点说明：① 程序基于系统 WebView2 运行时（Win11 自带，多数 Win10 也已随 Edge 安装，极少数老机器首次需联网装一次运行时）；② 全盘文件名索引按机器分别缓存在该机临时目录（不跟 U 盘），新机器首次搜索会先建索引。
-
-**设为 .md 默认程序**：右键任意 .md → 打开方式 → 选 `md-editor.exe` → 勾选「始终使用此应用」。
-
-### 📖 用法速查
-
-| 操作         | 说明                                                                                                 |
-| ------------ | ---------------------------------------------------------------------------------------------------- |
-| 编辑表格     | 光标点进表格单元格 → 浮出工具栏；或在行/列数字框输入目标数 + 回车批量增删                           |
-| 撤销 / 重做  | `Ctrl+Z` / `Ctrl+Y`（或 `Ctrl+Shift+Z`）；工具栏撤销/重做按钮同样可用                          |
-| 切换语言     | 右上角下拉：简体中文 / 繁體中文 / English                                                            |
-| 切换主题     | 状态栏「主题」菜单：浅色 / 深色 / 护眼 / 暖纸 + themes 目录下的自定义主题（Typora 社区 CSS 直接用） |
-| 切换模式     | 默认所见即所得；需要看 markdown 源码时点顶部「即时渲染」或 `Ctrl+Alt+M`                            |
-| 大纲         | 左侧：点章节定位 / ✕ 删章节 / 拖动重排 / 顶部框过滤                                                 |
-| 文件树       | 左侧「文件」页：此电脑+盘符常驻；地址栏输入路径回车跳转；右键新建/重命名/删除                        |
-| 全盘搜文件名 | 「文件」页过滤框输入关键词；结果**双击**=在资源树定位并展开路径                                |
-| 搜内容       | `Ctrl+Shift+F`：搜当前文件所在目录全部文本文件内容                                                 |
-| 快速打开     | `Ctrl+Shift+O`：按文件名过滤最近文件回车打开                                                       |
-| 新建文档     | 标签栏空白处**双击**                                                                           |
-| 数学公式     | 行内 `$x^2$`、块级 `$$…$$`，KaTeX 即时渲染                                                      |
-| 图表         | mermaid 代码块（mindmap / timeline / flowchart…），光标移出代码块即渲染                             |
-| emoji        | 输入 `:` 加关键词（如 `:smi`）弹出补全                                                           |
-| 查找替换     | `Ctrl+F` 查找 / `Ctrl+H` 带替换；`Enter`/`Shift+Enter` 跳转，`Esc` 关闭；`.*` 开关切正则 |
-| 版本历史     | 🕘 按钮：左侧列表右侧预览，点恢复（标脏不直接写盘）                                                  |
-| 专注模式     | `F8` 淡化其他段落                                                                                  |
-| 阅读滚动     | 正文空白处**双击**开始/停止自动滚动；`↑`/`↓` 调速（0.5~100 像素/秒），`Esc`/滚轮/任意键停止        |
-| 缩放         | `Ctrl+滚轮` / `Ctrl+0` 复位（50%~200%，只缩正文）；滑杆缩放时自动浮现，平时隐藏                    |
-| 导出         | 顶部「导出 ▾」：PDF / HTML 两档 / PNG 长图 / Word                                                   |
-| 打印         | 工具栏 🖨 按钮 /`Ctrl+P`（系统打印预览）                                                           |
-| 粘贴截图     | 直接 `Ctrl+V`，图片自动存到文档旁 `assets/`                                                      |
-| 自动保存     | 已保存过的文档每 30s 及失焦时自动落盘（标题 ● 消失即已存）                                          |
-| 快捷键       | `Ctrl+B` 加粗、`Ctrl+I` 斜体、`Ctrl+S` 保存、`Ctrl+Shift+S` 另存为、`Ctrl+Alt+M` 切模式             |
-
-### 🛠️ 从源码构建
-
-```bash
-git clone https://github.com/frandy820/md-editor.git
-cd md-editor
-npm install
-npm run tauri dev      # 开发调试
-npm run tauri build    # 产出 exe
+```powershell
+git clone https://github.com/ngoVictor/md-editor-ngoVersion.git
+cd md-editor-ngoVersion
+npm.cmd ci
+node scripts/copy-vditor-assets.mjs
+node node_modules/@tauri-apps/cli/tauri.js dev
 ```
 
-技术栈：Tauri 2（Rust）+ TypeScript + Vditor。MIT License。
+打包便携 exe：
+
+```powershell
+node node_modules/@tauri-apps/cli/tauri.js build --no-bundle
+```
+
+构建产物为 `src-tauri/target/release/md-editor.exe`。target/dist 和测试缓存可以再生成；不影响留存稳定 exe 的离线运行。资源必须由生成脚本准备，不能整目录复制 Vditor。本机根目录留存 exe 不随源码修改更新，也不纳入 Git；GitHub 发布时将已验证的 exe 作为 Release 附件上传。
+
+类型检查、浏览器/Rust 测试、原生验证和 MSVC 环境说明集中在[构建指南](doc/构建exe全流程.md)。维护代码先读 [AGENTS.md](AGENTS.md) 和[架构指南](doc/架构与维护指南.md)。
+
+## 项目目录
+
+| 位置 | 用途 |
+| --- | --- |
+| src/、src-tauri/ | 前端与 Rust 后端源码、能力配置、图标及依赖锁文件 |
+| public/vditor-assets/ | 可生成的离线资源；本机保留供直接开发使用 |
+| tests/、scripts/ | 现行自动化回归、资源生成与发布验证 |
+| [doc/](doc/README.md) | 现行指南；doc/资料/ 仅保留最新交付证据、正式设计源图及清理记录 |
+| orginal_version/ | 本机固定原版参考，Git 忽略，不随仓库发布，不修改 |
+
+MD Editor is an offline Windows Markdown editor with three editing modes, safe local saving, multiple windows, image support, themes, and Word/HTML/PDF/PNG export. See the [documentation index](doc/README.md).
+
+## License
+
+沿用 [MIT License](LICENSE)，保留 `Copyright (c) 2026 frandy820`。本版修改与维护由 ngoVictor 发布，原作者不对本版改动承担维护责任。
+
+第三方依赖、内置字体及渲染资源遵循各自的许可证；本项目的 MIT 声明不替代它们的许可。`package.json` 中的 `private: true` 仅防止误发布到 npm，不影响 GitHub 开源。
+
+欢迎通过 [Issues](https://github.com/ngoVictor/md-editor-ngoVersion/issues) 反馈问题，请附 Windows/WebView2 版本、复现步骤与可公开的最小 Markdown 样例；截图请隐去个人内容。

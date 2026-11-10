@@ -1,0 +1,18 @@
+/* HTML previews are rendered document content, not fenced code. Source stays editable. */
+#editor .vditor-reset [data-type="html-block"] > :is(.vditor-wysiwyg__preview, .vditor-ir__preview) {
+  font: inherit;
+  white-space: normal;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  margin: 0 0 12px;
+}
+#editor .vditor-wysiwyg [data-type="html-block"]::before { display: none; }
+#editor .vditor-wysiwyg [data-html-hidden] { display: none; }
+/* IR keeps the HTML source markers available, even for an empty container/comment. */
+#editor .vditor-reset [data-html-align="center"] { text-align: center; }
+#editor .vditor-reset [data-html-align="left"] { text-align: left; }
+#editor .vditor-reset [data-html-align="right"] { text-align: right; }
+#editor .vditor-reset [data-html-align],
+#editor .vditor-preview :is(div, center)[align] { white-space: normal; }

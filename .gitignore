@@ -15,8 +15,7 @@ dist-ssr
 # Rust / Tauri 构建产物
 src-tauri/target
 
-# Vditor 本地化资源（~23M，从 node_modules/vditor/dist 复制而来；
-# clone 后需手动复制：cp -r node_modules/vditor/dist/* public/vditor-assets/dist/）
+# Vditor 离线资源：由 scripts/copy-vditor-assets.mjs 按运行时清单生成
 public/vditor-assets
 
 # Editor directories and files
@@ -29,4 +28,21 @@ public/vditor-assets
 *.njsproj
 *.sln
 *.sw?
-dist-portable/
+
+# 本机工具配置与用户文件
+.reasonix/
+reasonix.toml
+md-editor*.exe
+
+# Playwright 测试产物
+playwright-report/
+test-results/
+
+# 本机固定原版参考，不参与当前项目发布
+/orginal_version/
+
+# Local publication helpers and secrets
+.env
+.env.*
+!.env.example
+*.local.mjs

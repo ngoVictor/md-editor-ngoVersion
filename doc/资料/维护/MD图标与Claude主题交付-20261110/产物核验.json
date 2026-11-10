@@ -1,0 +1,39 @@
+{
+  "path": "md-editor.exe",
+  "size": 12399104,
+  "sha256": "fabdb7a96e644ba7c818336b6ecb22f332f1098dd080b8f33f9095a13c696646",
+  "iconFrames": [
+    {
+      "width": 32,
+      "height": 32,
+      "embedded": true
+    },
+    {
+      "width": 16,
+      "height": 16,
+      "embedded": true
+    },
+    {
+      "width": 24,
+      "height": 24,
+      "embedded": true
+    },
+    {
+      "width": 48,
+      "height": 48,
+      "embedded": true
+    },
+    {
+      "width": 64,
+      "height": 64,
+      "embedded": true
+    },
+    {
+      "width": 256,
+      "height": 256,
+      "embedded": true
+    }
+  ],
+  "iconSource": "doc/资料/设计/markdown-icon-20261110/markdown-editor-md-v2.png",
+  "iconSourceSha256": "db2352f6cbc3f48754c640aeaee35392aa99525b769bbb90c7510aa89e102682"
+}

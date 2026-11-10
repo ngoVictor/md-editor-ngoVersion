@@ -47,7 +47,7 @@ export default {
   'insertColumnRight': '在右边插入一列',
   'insertRowAbove': '在上方插入一行',
   'insertRowBelow': '在下方插入一行',
-  'instantRendering': '即时渲染',
+  'instantRendering': '语法编辑',
   'italic': '斜体',
   'language': '语言',
   'line': '分隔线',
@@ -82,5 +82,5 @@ export default {
   'upload': '上传图片或文件',
   'uploadError': '上传错误',
   'uploading': '上传中...',
-  'wysiwyg': '所见即所得',
+  'wysiwyg': '排版成品',
 }

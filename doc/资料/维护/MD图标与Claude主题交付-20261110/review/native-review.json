@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": [
+    "Actual Windows canonical pathKey agrees with open_file, including case and dot aliases",
+    "Immediate active-tab click preserves unsynchronized text; actual native save writes the draft",
+    "Deleted on-disk target is reused from the loaded tab through native pathKey without rereading",
+    "Invalid BOM bytes are rejected by release IPC; original bytes remain unchanged",
+    "Native recent-file list deduplicates canonical document activations",
+    "Release diagnostics stay hidden",
+    "Production close callback via native event IPC waits for clean Save As and destroys its window after cancellation",
+    "No WebView page errors occur"
+  ],
+  "pageErrors": []
+}

@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      # Vditor 资源本地化（CSP script-src 'self' 必需；node 直调避开路径 & 问题）
+      - name: Copy Vditor assets
+        run: node scripts/copy-vditor-assets.mjs
+
+      - name: TypeScript check
+        run: node node_modules/typescript/bin/tsc
+
+      - name: Documentation links and source limits
+        run: node scripts/check-docs.mjs
+
+      - name: Offline asset tests
+        run: node --test scripts/vditor-assets.test.mjs
+
+      - name: Frontend build
+        run: node node_modules/vite/bin/vite.js build
+
+      - name: Install Playwright Chromium
+        run: node node_modules/@playwright/test/cli.js install chromium
+
+      - name: Playwright tests
+        run: node node_modules/@playwright/test/cli.js test
+
+      - name: Rust tests
+        working-directory: src-tauri
+        run: cargo test --lib --locked
+
+      - name: Clippy (warnings as errors)
+        working-directory: src-tauri
+        run: cargo clippy --lib --locked -- -D warnings
+
+      - name: Rust format check
+        working-directory: src-tauri
+        run: cargo fmt --all -- --check

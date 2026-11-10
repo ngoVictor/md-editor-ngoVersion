@@ -1,0 +1,42 @@
+/* Palette tokens shared by editor and source-preview windows.
+   Green/paper palettes adapted from frandy820/md-editor 8571788 (MIT).
+   Heading/text tones adjusted for readable contrast on each content background. */
+:root {
+  color-scheme: light;
+  --canvas:#f7f8fa; --page:#ffffff; --surface:#f1f4f8; --raised:#ffffff;
+  --hover:#e8eef8; --border:#cbd3df; --text:#262b33; --muted:#586474;
+  --accent:#315fb9; --soft:#e7eefc; --code:#f0f3f7; --code-text:#99343b;
+  --quote:#eef3fb; --warning:#805014; --selection:#b7d1fb; --mark:#ffeb9a;
+  --h1:#235b9a; --h2:#2c713d; --h3:#935514; --h4:#7645a0; --h5:#356775; --h6:#69566c;
+}
+:root[data-theme=dark] {
+  color-scheme: dark;
+  --canvas:#20242c; --page:#1b1f26; --surface:#252b35; --raised:#2a313c;
+  --hover:#353f50; --border:#4b586a; --text:#dce1eb; --muted:#b0bac9;
+  --accent:#a2c3ff; --soft:#303f59; --code:#252e3c; --code-text:#ffb5bd;
+  --quote:#283446; --warning:#ffd18a; --selection:#3c5680; --mark:#635221;
+  --h1:#a7caff; --h2:#99d5ac; --h3:#ecc28d; --h4:#d0b0ed; --h5:#90ceda; --h6:#e5aec5;
+}
+:root[data-theme=eye] {
+  --canvas:#d9ecdd; --page:#c7edcc; --surface:#d4e8d8; --raised:#e3f1e6;
+  --hover:#b9d9c0; --border:#94b89e; --text:#2b3a2e; --muted:#435d49;
+  --accent:#265d3c; --soft:#b8ddc1; --code:#d9e8ce; --code-text:#853d38;
+  --quote:#d4e5d4; --warning:#735017; --selection:#a1c8ab; --mark:#e6db92;
+  --h1:#1a5e8a; --h2:#286638; --h3:#805012; --h4:#6d3fa8; --h5:#405c80; --h6:#56613c;
+}
+:root[data-theme=paper] {
+  --canvas:#e9dfc8; --page:#f7f1e0; --surface:#eee5cf; --raised:#faf5e8;
+  --hover:#e1d3ae; --border:#c0ad80; --text:#3b3222; --muted:#65553a;
+  --accent:#855321; --soft:#e9d9b4; --code:#ead9b5; --code-text:#873f32;
+  --quote:#f0e8d2; --warning:#795014; --selection:#d9c492; --mark:#f2d98c;
+  --h1:#8a4a1a; --h2:#6a5a14; --h3:#a04b0c; --h4:#6d3f78; --h5:#4a5f7a; --h6:#75604f;
+}
+/* Claude Code inspired: warm charcoal, ivory and restrained terracotta accents. */
+:root[data-theme=claude] {
+  color-scheme: dark;
+  --canvas:#242321; --page:#292724; --surface:#302e2b; --raised:#383530;
+  --hover:#454039; --border:#625b52; --text:#eee9df; --muted:#bdb5a9;
+  --accent:#e5a082; --soft:#49372e; --code:#34302b; --code-text:#efb59a;
+  --quote:#332f2a; --warning:#eac387; --selection:#655043; --mark:#665226;
+  --h1:#edab8d; --h2:#c5cf9d; --h3:#e7c68e; --h4:#cdb9d9; --h5:#a5c9c6; --h6:#d7b5ae;
+}

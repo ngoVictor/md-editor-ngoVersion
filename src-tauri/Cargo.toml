@@ -1,16 +1,12 @@
 [package]
 name = "md-editor"
-version = "0.5.2"
+version = "0.1.0"
 description = "A Tauri App"
 authors = ["frandy820"]
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [lib]
-# The `_lib` suffix may seem redundant but it is necessary
-# to make the lib name unique and wouldn't conflict with the bin name.
-# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+# `_lib` 后缀避免与 bin 同名冲突（Windows 上 cargo#8519）
 name = "md_editor_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
@@ -18,23 +14,27 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
-tauri = { version = "2", features = ["protocol-asset"] }
-tauri-plugin-opener = "2"
+tauri = { version = "2", features = [] }
 tauri-plugin-dialog = "2"
-webview2-com = "0.38"
-windows = { version = "0.61", features = ["Win32_Globalization"] }
+tauri-plugin-opener = "2"
 tauri-plugin-single-instance = "2"
 encoding_rs = "0.8"
+base64 = "0.22"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+sha2 = "0.10"
 
-base64 = "0.22"
 
-# v0.3.28 体积优化（用户要求软件尽量小方便传）：链接期优化+符号剥离+体积优先代码生成。
-# 注意：改此段后必须 cargo clean（target 缓存混合会静默回退旧配置）。
+tempfile = "3"
+
+[target.'cfg(windows)'.dependencies]
+webview2-com = "=0.38.2"
+windows = { version = "=0.61.3", features = ["Win32_Foundation"] }
+
+# Size-focused release, retaining normal panic unwinding and all desktop features.
+# Dev/test profiles remain unchanged. Revalidate the actual release exe after changes.
 [profile.release]
-strip = true
-lto = "fat"
 codegen-units = 1
+lto = true
 opt-level = "s"
-panic = "abort"
+strip = "symbols"

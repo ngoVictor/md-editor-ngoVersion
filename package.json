@@ -6,22 +6,34 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview",
+    "test": "node node_modules/@playwright/test/cli.js test",
+    "test:smoke": "node node_modules/@playwright/test/cli.js test",
     "tauri": "tauri"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-dialog": "^2.7.1",
-    "@tauri-apps/plugin-opener": "^2",
     "docx": "^9.7.1",
+    "events": "^3.3.0",
+    "highlight.js": "^11.12.0",
+    "html-to-docx": "1.8.0",
     "html2canvas": "^1.4.1",
-    "markdown-it": "^15.0.0",
+    "jszip": "^3.10.1",
+    "markdown-it": "^14.1.0",
     "markdown-it-footnote": "^4.0.0",
+    "mdast-util-from-markdown": "^2.0.2",
+    "mdast-util-math": "^3.0.0",
+    "micromark-extension-math": "^3.1.0",
     "vditor": "^3.11.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@tauri-apps/cli": "^2",
+    "@types/markdown-it": "^14.2.0",
+    "@types/markdown-it-footnote": "^3.0.4",
+    "fast-xml-parser": "^5.10.1",
     "typescript": "~5.6.2",
-    "vite": "^6.0.3"
+    "vite": "^6.0.3",
+    "vite-plugin-node-polyfills": "^0.28.0"
   }
 }

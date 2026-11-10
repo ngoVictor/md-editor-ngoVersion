@@ -1,0 +1,62 @@
+{
+  "checks": [
+    "wysiwyg: HTML title centered and document remains clean",
+    "ir: HTML title centered and document remains clean",
+    "sv: HTML title centered and document remains clean",
+    "Mode switches and explicit save retain original file bytes"
+  ],
+  "modes": [
+    {
+      "mode": "wysiwyg",
+      "images": [
+        {
+          "alt": "GitHub release",
+          "loaded": true,
+          "src": "https://img.shields.io/badge/release-test"
+        },
+        {
+          "alt": "Python",
+          "loaded": true,
+          "src": "https://img.shields.io/badge/Python-3.10-blue"
+        }
+      ],
+      "fitsRow": true,
+      "sameRow": true
+    },
+    {
+      "mode": "ir",
+      "images": [
+        {
+          "alt": "GitHub release",
+          "loaded": true,
+          "src": "https://img.shields.io/badge/release-test"
+        },
+        {
+          "alt": "Python",
+          "loaded": true,
+          "src": "https://img.shields.io/badge/Python-3.10-blue"
+        }
+      ],
+      "fitsRow": true,
+      "sameRow": true
+    },
+    {
+      "mode": "sv",
+      "images": [
+        {
+          "alt": "GitHub release",
+          "loaded": true,
+          "src": "https://img.shields.io/badge/release-test"
+        },
+        {
+          "alt": "Python",
+          "loaded": true,
+          "src": "https://img.shields.io/badge/Python-3.10-blue"
+        }
+      ],
+      "fitsRow": true,
+      "sameRow": true
+    }
+  ],
+  "errors": []
+}

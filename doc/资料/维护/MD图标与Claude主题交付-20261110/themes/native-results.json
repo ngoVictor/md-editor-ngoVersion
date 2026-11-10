@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "light: actual WebView2 WYSIWYG/IR/SV shows six distinct heading colors",
+    "dark: actual WebView2 WYSIWYG/IR/SV shows six distinct heading colors",
+    "eye: actual WebView2 WYSIWYG/IR/SV shows six distinct heading colors",
+    "paper: actual WebView2 WYSIWYG/IR/SV shows six distinct heading colors",
+    "claude: actual WebView2 WYSIWYG/IR/SV shows six distinct heading colors",
+    "Independent native source preview inherits and live-syncs Claude Code / soft green",
+    "Theme preference survives native WebView reload",
+    "Native theme operations do not write to the source file"
+  ],
+  "errors": []
+}

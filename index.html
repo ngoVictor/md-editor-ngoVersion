@@ -3,174 +3,88 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="/src/styles.css" />
-    <!-- v0.4.0 主题防闪：三份真实 content-theme 预载（paper 已映射到 light），
-         Vditor setTheme 运行时插 link 即命中缓存，切换无白/黑闪窗口 -->
-    <link rel="preload" as="style" href="/vditor-assets/dist/css/content-theme/light.css" />
-    <link rel="preload" as="style" href="/vditor-assets/dist/css/content-theme/dark.css" />
-    <link rel="preload" as="style" href="/vditor-assets/dist/css/content-theme/eye.css" />
+    <link rel="stylesheet" href="/src/editor-theme.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MD 编辑器</title>
     <script type="module" src="/src/main.ts" defer></script>
   </head>
   <body>
     <div id="toolbar">
-      <!-- v0.4.0 工具栏收敛（Word/Typora 编排：低频进菜单、高频直出）：
-           文件 ▾（打开/保存/历史/导出全家/打印/诊断）+ 查找 + 视图 ▾（专注/侧栏/面板/模式）+ 字号/语言 -->
-      <div class="tb-group">
-        <span id="file-wrap">
-          <button id="btn-file-menu" type="button">文件 ▾</button>
-          <div id="file-menu" hidden>
-            <button id="fm-open" type="button">打开…</button>
-            <button id="fm-save" type="button">保存</button>
-            <button id="fm-save-as" type="button">另存为…</button>
-            <div class="menu-sep"></div>
-            <button id="fm-history" type="button">版本历史</button>
-            <div class="menu-sep"></div>
-            <button id="fm-export-pdf" type="button">PDF（矢量）</button>
-            <button id="fm-export-html" type="button">HTML（带样式）</button>
-            <button id="fm-export-html-plain" type="button">HTML（纯净）</button>
-            <button id="fm-export-image" type="button">图片 PNG（长图）</button>
-            <button id="fm-export-docx" type="button">Word (.docx)</button>
-            <button id="fm-print" type="button">打印…</button>
-            <div class="menu-sep"></div>
-            <button id="fm-diag" type="button">导出诊断包</button>
-          </div>
-        </span>
-        <button id="btn-find" type="button" title="查找替换（Ctrl+F / Ctrl+H）">查找</button>
-      </div>
-      <div class="tb-spacer"></div>
-      <div class="tb-group">
-        <span id="view-wrap">
-          <button id="btn-view-menu" type="button">视图 ▾</button>
-          <div id="view-menu" hidden>
-            <button id="vm-focus" type="button">打字专注</button>
-            <button id="vm-reading" type="button">阅读专注</button>
-            <div class="menu-sep"></div>
-            <button id="vm-side" type="button">侧栏</button>
-            <button id="vm-cmdk" type="button">命令面板</button>
-            <button id="vm-qopen" type="button">快速打开</button>
-            <div class="menu-sep"></div>
-            <button id="vm-mode" type="button">切换编辑模式</button>
-          </div>
-        </span>
-        <span id="mode-badge" class="mode-badge wysiwyg" title="当前：所见即所得模式（可直接编辑表格）">所见即所得</span>
-        <span class="tb-divider"></span>
-        <input id="font-size-select" type="number" min="8" max="72" step="1" value="16" title="编辑区字号" style="width: 4em" />
-        <select id="lang-select" title="Language / 语言">
-          <option value="zh-CN">简体中文</option>
-          <option value="zh-TW">繁體中文</option>
-          <option value="en">English</option>
-        </select>
-      </div>
-    </div>
-    <!-- v0.4.0 旧工具栏按钮退役为隐藏锚点：所有事件绑定原样保留，
-         文件/视图菜单项与命令面板一律转发这些按钮的 click（零业务逻辑复制）。
-         export-menu 的 click 委托监听挂在容器上，节点保留即有效（display:none 不影响 el.click() 派发） -->
-    <div id="legacy-btns" hidden aria-hidden="true">
-      <button id="btn-open" type="button">打开</button>
-      <button id="btn-save" type="button">保存</button>
-      <button id="btn-focus-mode" type="button">打字专注</button>
-      <button id="btn-history" type="button">历史</button>
-      <button id="btn-diag" type="button">诊断</button>
-      <span id="export-wrap">
-        <button id="btn-export" type="button">导出 ▾</button>
-        <div id="export-menu" hidden>
-          <button data-export="pdf" type="button">PDF（矢量）</button>
-          <button data-export="html" type="button">HTML（带样式）</button>
-          <button data-export="html-plain" type="button">HTML（纯净）</button>
-          <button data-export="image" type="button">图片 PNG（长图）</button>
-          <button data-export="docx" type="button">Word (.docx)</button>
-        </div>
-      </span>
-      <button id="btn-print" type="button">打印</button>
-      <button id="btn-mode" type="button">切换编辑模式</button>
+      <button id="btn-new" type="button" data-i18n="newDoc">新建</button>
+      <button id="btn-open" type="button">📂 打开</button>
+      <button id="btn-save" type="button">💾 保存</button>
+      <select id="btn-mode" title="编辑模式（Ctrl+Alt+M 循环切换）">
+        <option value="wysiwyg">排版成品</option>
+        <option value="ir">语法编辑</option>
+        <option value="sv">分屏预览</option>
+      </select>
+      <span id="mode-badge" class="mode-badge wysiwyg" title="当前：排版成品模式（所见即所得，可直接编辑表格）">排版成品</span>
+      <button id="btn-copy-mode" type="button" title="当前复制模式：渲染结果">复制：渲染</button>
+      <select id="lang-select" title="Language / 语言">
+        <option value="zh-CN">简体中文</option>
+        <option value="zh-TW">繁體中文</option>
+        <option value="en">English</option>
+      </select>
+      <button id="btn-debug" type="button" class="debug-toggle" title="调试：显示/隐藏诊断条">⚙</button>
+      <span id="file-title">（未命名）</span>
+      <span id="encoding-badge"></span>
     </div>
     <div id="tabs"></div>
-    <div id="read-progress" aria-hidden="true"></div>
+    <div id="utility-bar">
+      <button id="btn-navigation" data-i18n="fileNavigation">文件导航</button>
+      <button id="btn-find" data-i18n="find">查找替换</button>
+      <button id="btn-versions" data-i18n="versions">历史版本</button>
+      <select id="export-format" data-aria-label="exportFormat" aria-label="导出格式"></select>
+      <button id="btn-export" data-i18n="exportAction">导出</button>
+      <button id="btn-save-all" data-i18n="saveAll">保存全部</button>
+      <label><input id="pref-autosave" type="checkbox"><span data-i18n="autosave">自动保存</span></label>
+      <label title="仅恢复文件路径；未保存正文仍需手动保存"><input id="pref-session" type="checkbox"><span data-i18n="restoreSession">恢复文件标签</span></label>
+      <label><span data-i18n="theme">主题</span> <select id="pref-theme"><option value="light" data-i18n="light">浅色</option><option value="dark" data-i18n="dark">深色</option><option value="eye" data-i18n="eye">护眼绿</option><option value="paper" data-i18n="paper">暖纸</option><option value="claude" data-i18n="claude">Claude Code</option><option value="system" data-i18n="system">跟随系统</option></select></label>
+    </div>
+    <section id="navigation-panel" class="feature-panel" hidden>
+      <div class="feature-row">
+        <button id="navigation-folder" data-i18n="chooseFolder">选择文件夹</button><button id="navigation-recent" data-i18n="recentFiles">最近文件</button>
+        <input id="navigation-query" data-placeholder="quickOpen" placeholder="搜索文件名 / >命令">
+        <label><input id="navigation-content" type="checkbox"><span data-i18n="searchFileContent">搜索正文</span></label>
+        <button id="navigation-search" data-i18n="findRun">查找</button><button id="navigation-cancel" data-i18n="closeCancel">取消</button><button id="navigation-close" data-i18n="close">关闭</button>
+      </div>
+      <output id="navigation-status" aria-live="polite"></output><div id="navigation-results"></div>
+    </section>
+    <section id="find-panel" class="feature-panel" hidden aria-label="Find / replace">
+      <div data-i18n="findScope">查找 Markdown 源码（含标记、链接和代码）</div>
+      <div class="feature-row">
+        <input id="find-query" data-placeholder="query" placeholder="查找内容">
+        <input id="find-replacement" data-placeholder="replacement" placeholder="替换为">
+        <label><input id="find-regex" type="checkbox"><span data-i18n="regex">正则表达式</span></label>
+        <label><input id="find-case" type="checkbox"><span data-i18n="caseSensitive">区分大小写</span></label>
+        <button id="find-run" data-i18n="findRun">查找</button>
+        <button id="find-prev" data-i18n="previous">上一项</button><button id="find-next" data-i18n="next">下一项</button>
+        <button id="replace-one" data-i18n="replaceOne">替换当前</button><button id="replace-all" data-i18n="replaceAll">全部替换</button>
+        <button id="find-close" data-i18n="close">关闭</button>
+      </div>
+      <output id="find-status" aria-live="polite"></output><pre id="find-context"></pre>
+    </section>
+    <div id="document-status" class="feature-panel" hidden aria-live="polite"></div>
+    <section id="versions-panel" class="feature-panel" hidden>
+      <span data-i18n="historyHint">保存前归档旧文件；恢复后需手动保存</span>
+      <button id="versions-close" data-i18n="close">关闭</button>
+      <select id="versions-list" aria-label="File history"></select>
+      <button id="version-restore" data-i18n="restoreVersion">恢复为未保存修改</button>
+      <output id="versions-status" aria-live="polite"></output><pre id="version-preview"></pre>
+    </section>
     <div id="main">
       <aside id="outline-panel">
-        <div id="side-gutter" title="拖动调整侧栏宽度"></div>
-        <div class="side-tabs">
-          <button id="side-tab-outline" class="side-tab" type="button">大纲</button>
-          <button id="side-tab-files" class="side-tab active" type="button">文件</button>
-        </div>
-        <div id="side-pane-outline" class="side-pane" hidden>
-          <input id="outline-filter" type="text" placeholder="过滤大纲…" autocomplete="off" spellcheck="false" />
-          <ul id="outline"></ul>
-        </div>
-        <div id="side-pane-files" class="side-pane">
-          <div class="ftree-bar">
-            <input id="ftree-path" type="text" placeholder="路径，回车跳转" autocomplete="off" spellcheck="false" />
-            <button id="ftree-refresh" type="button" title="刷新目录">⟳</button>
-          </div>
-          <input id="gsearch-input" type="text" placeholder="搜同级文件内容，回车执行（Ctrl+Shift+F）" autocomplete="off" spellcheck="false" />
-          <ul id="gsearch-results" hidden></ul>
-          <input id="ftree-filter" type="text" placeholder="过滤文件名…" autocomplete="off" spellcheck="false" />
-          <ul id="es-results" hidden></ul>
-          <div class="ftree" id="ftree"></div>
-          <div class="recent-title"><span id="recent-title">最近</span><button id="recent-clear" type="button" title="清空最近文件列表">清空</button></div>
-          <ul id="recent-list"></ul>
-        </div>
+        <div class="panel-title" id="panel-title">大纲 · 点击定位 · ✕删除 · 拖动重排</div>
+        <input id="outline-filter" data-placeholder="filterOutline" placeholder="筛选大纲">
+        <ul id="outline"></ul>
       </aside>
+      <div id="outline-resize" role="separator" tabindex="0" aria-label="大纲宽度" aria-orientation="vertical"></div>
       <main id="editor-wrap">
         <div id="editor"></div>
-        <div id="find-bar" hidden>
-          <div class="find-row">
-            <input id="find-input" type="text" placeholder="查找…" autocomplete="off" spellcheck="false" />
-            <button id="find-re" type="button" title="正则模式：. * + ? ( ) [ ] 等元字符生效（默认忽略大小写）；替换支持 $1 引用分组">.*</button>
-            <span id="find-count" class="find-count">0/0</span>
-            <button id="find-prev" type="button" title="上一个（Shift+Enter）">↑</button>
-            <button id="find-next" type="button" title="下一个（Enter）">↓</button>
-            <button id="find-close" type="button" title="关闭（Esc）">✕</button>
-          </div>
-          <div class="find-row" id="replace-row" hidden>
-            <input id="replace-input" type="text" placeholder="替换为…" autocomplete="off" spellcheck="false" />
-            <button id="replace-one" type="button">替换</button>
-            <button id="replace-all" type="button">全部替换</button>
-          </div>
-        </div>
-        <div id="zoom-bar" title="显示比例：Ctrl+滚轮缩放，Ctrl+0 复位（50%~200%）">
-          <button id="zoom-out" type="button" title="缩小">−</button>
-          <input id="zoom-slider" type="range" min="50" max="200" step="10" value="100" title="拖动调整显示比例" />
-          <button id="zoom-in" type="button" title="放大">+</button>
-          <span id="zoom-badge">100%</span>
-        </div>
-        <div id="find-overlay"></div>
-        <div id="code-btn-layer" aria-hidden="true"></div>
-        <div id="ext-mod-bar" hidden>
-          <span id="ext-mod-msg"></span>
-          <button id="ext-reload" type="button"></button>
-          <button id="ext-dismiss" type="button"></button>
-        </div>
-        <div id="big-doc-bar" hidden>
-          <span id="big-doc-msg"></span>
-          <button id="big-doc-close" type="button" title="✕">✕</button>
-        </div>
-        <datalist id="find-hist-dl"></datalist>
-        <datalist id="rep-hist-dl"></datalist>
-        <div id="big-load" hidden>正在加载大文件，请稍候…</div>
-        <div id="empty-state" hidden><div class="empty-hint" id="empty-hint">点击顶部「打开」按钮，或把 .md 文件拖入窗口，开始编辑</div></div>
+        <div id="empty-state" hidden><div class="empty-hint" id="empty-hint">📋 点击顶部「📂 打开」，或把 .md 文件拖入窗口，开始编辑</div></div>
       </main>
     </div>
-    <footer id="status-bar">
-      <button id="sb-side" type="button" title="显示 / 隐藏侧栏（Ctrl+Shift+B）">◫</button>
-      <span id="sb-save" class="sb-seg" hidden></span>
-      <span id="sb-focus" class="sb-seg"></span>
-      <span id="sb-count" class="sb-seg"></span>
-      <span id="sb-read" class="sb-seg"></span>
-      <span id="sb-pos" class="sb-seg"></span>
-      <span class="sb-spacer"></span>
-      <button id="sb-theme" type="button" title="切换主题"></button>
-      <span id="encoding-badge" class="sb-seg"></span>
-      <button id="sb-zoom" type="button" title="显示比例：点击复位 100%">100%</button>
-      <span id="app-version" title="软件版本（报问题时先看这里）">v0.5.2</span>
-    </footer>
-    <div id="theme-menu" hidden>
-      <button data-theme="light" type="button"></button>
-      <button data-theme="dark" type="button"></button>
-      <button data-theme="eye" type="button"></button>
-      <button data-theme="paper" type="button"></button>
-    </div>
+    <div id="debug-bar"></div>
     <div id="close-confirm" class="modal-mask" hidden>
       <div class="modal">
         <div class="modal-msg" id="cc-msg">有未保存的修改，是否保存？</div>
@@ -181,66 +95,12 @@
         </div>
       </div>
     </div>
-    <div id="export-overlay" class="modal-mask" hidden>
-      <div class="modal export-modal">
-        <div class="modal-msg" id="export-msg">正在导出 PDF，请稍候…</div>
-        <div class="export-progress"><div class="export-progress-bar" id="export-progress-bar"></div></div>
-        <div class="export-pct" id="export-pct">0%</div>
-      </div>
-    </div>
-    <div id="history-modal" class="modal-mask" hidden>
-      <div class="modal history-modal">
-        <div class="modal-msg" id="hist-title">版本历史</div>
-        <div class="hist-body">
-          <ul id="hist-list"></ul>
-          <pre id="hist-preview" class="hist-preview">（预览）</pre>
-        </div>
-        <div class="modal-btns">
-          <button id="hist-restore" type="button" disabled>恢复此版本</button>
-          <button id="hist-close" type="button">关闭</button>
-        </div>
-      </div>
-    </div>
-    <div id="quickopen-modal" class="modal-mask" hidden>
-      <div class="modal quickopen-modal">
-        <div class="modal-msg" id="qo-title">快速打开</div>
-        <input id="qo-input" type="text" placeholder="输入文件名过滤，↑↓选择，回车打开…" autocomplete="off" spellcheck="false" />
-        <ul id="qo-list"></ul>
-        <div class="qo-hint">↑↓ 选择 · Enter 打开 · Esc 关闭</div>
-      </div>
-    </div>
-    <div id="cmdk-modal" class="modal-mask" hidden>
-      <div class="modal cmdk-modal">
-        <input id="cmdk-input" type="text" placeholder="输入命令或文件名…" autocomplete="off" spellcheck="false" />
-        <div id="cmdk-list"></div>
-        <div class="cmdk-foot" id="cmdk-foot">↑↓ 选择 · Enter 执行 · Esc 关闭</div>
-      </div>
-    </div>
-    <div id="tab-menu" hidden>
-      <button data-act="close" type="button">关闭</button>
-      <button data-act="close-others" type="button">关闭其它</button>
-      <button data-act="close-right" type="button">关闭右侧</button>
-      <button data-act="close-selected" type="button" hidden>关闭选中</button>
-      <button data-act="close-all" type="button">全部关闭</button>
-    </div>
-    <div id="ftree-menu" hidden>
-      <button data-act="open" type="button">打开</button>
-      <button data-act="new-md" type="button">新建 Markdown 文件</button>
-      <button data-act="new-txt" type="button">新建 TXT 文件</button>
-      <button data-act="new-dir" type="button">新建文件夹</button>
-      <button data-act="rename" type="button">重命名</button>
-      <button data-act="delete" type="button">删除</button>
-      <button data-act="reveal" type="button">在文件夹中显示</button>
-      <button data-act="copy-path" type="button">复制路径</button>
-    </div>
-    <div id="ftree-modal" class="modal-mask" hidden>
+    <!-- 错误提示模态：window.alert 在 WebView2 中不可靠（可能一闪而过），统一走自定义模态 -->
+    <div id="error-modal" class="modal-mask" hidden>
       <div class="modal">
-        <div class="modal-msg" id="ftree-modal-title">重命名</div>
-        <div class="modal-msg" id="ftree-modal-msg" hidden style="font-size:13px;color:var(--muted2);margin-top:-10px;margin-bottom:12px;"></div>
-        <input id="ftree-modal-input" type="text" placeholder="输入名称…" autocomplete="off" spellcheck="false" />
+        <div class="modal-msg" id="err-msg"></div>
         <div class="modal-btns">
-          <button id="ftree-modal-ok" type="button">确定</button>
-          <button id="ftree-modal-cancel" type="button">取消</button>
+          <button id="err-ok" type="button">确定</button>
         </div>
       </div>
     </div>

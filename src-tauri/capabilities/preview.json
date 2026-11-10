@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "preview",
+  "description": "Read-only source preview windows: close and choose a code editor",
+  "windows": ["preview-*"],
+  "permissions": ["core:window:allow-close", "dialog:allow-open"]
+}
